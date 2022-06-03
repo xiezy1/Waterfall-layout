@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+}
+
+.container {
+    width: 1200px;
+    position: relative;
+    left: 50%;
+    margin-left: -600px;
+}
+
+.container .img {
+    position: absolute;
+}
+
+.container .img img {
+    display: block;
+    width: 100%;
+}

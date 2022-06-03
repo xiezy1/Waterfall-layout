@@ -1,12 +1,13 @@
 class Wallpaper {
     constructor({ el, col, itemEl, gutter }) {
         this.el = el && document.querySelector(el)
-        this.col = col
         this._arr = []
+        this.col = col
         this.gutter = gutter
         this.imageList = itemEl && document.querySelectorAll(itemEl)
         this.imageListLength = this.imageList.length
         this.imageWidth = (this.el.offsetWidth - (this.col - 1) * this.gutter) / this.col
+        console.log(this.col);
         this.init()
     }
     init() {
@@ -18,7 +19,6 @@ class Wallpaper {
         let minValue = Math.min(..._arr)
         return _arr.findIndex(i => i == minValue)
     }
-
     setImgPosition() {
         for (let i = 0; i < this.imageListLength; i++) {
             let item = this.imageList[i]
@@ -39,6 +39,15 @@ class Wallpaper {
                 item.style.left = left + 'px'
             }
         }
+    }
+
+
+    render({ col, gutter }) {
+        this.col = col
+        this.gutter = gutter
+        this._arr = []
+        this.imageWidth = (this.el.offsetWidth - (this.col - 1) * this.gutter) / this.col
+        this.setImgPosition()
     }
 
 }

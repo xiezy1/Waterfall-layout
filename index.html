@@ -10,6 +10,17 @@
 </head>
 
 <body>
+    <div class="sidebar">
+        <div class="closed">关闭</div>
+        <ul>
+            <li>
+                <div class="label">col</div><input id="colInput" type="range" min="2" max="8" value="6">
+            </li>
+            <li>
+                <div class="label">gutter</div><input id="gutterInput" type="range" min="5" max="40" value="20">
+            </li>
+        </ul>
+    </div>
     <div class="container">
         <div class="img"><img src="./images/1.jpeg" alt=""></div>
         <div class="img"><img src="./images/2.jpeg" alt=""></div>
@@ -30,12 +41,35 @@
     <script src="./js/index.js"></script>
     <script>
         window.onload = function () {
-            new Wallpaper({
+            let wallpaper = new Wallpaper({
                 el: '.container',
                 itemEl: '.img',
                 col: 6,
                 gutter: 20
             })
+
+            const sidebarDom = document.querySelector('.sidebar'),
+                sideTracks = Array.from(document.querySelectorAll('input'))
+            document.querySelector('.closed').addEventListener('click', function () {
+                sidebarDom.classList.toggle('hide')
+            })
+
+
+            sideTracks.forEach(item => {
+                item.addEventListener('change', inputTrackChange, false)
+            })
+            console.log(sideTracks[0].value);
+
+            function inputTrackChange(e) {
+                let _dom = e.target
+                let _data = {
+                    col: sideTracks[0].value * 1,
+                    gutter: sideTracks[1].value * 1
+                }
+                if (_dom.id == 'colInput') _data['col'] = e.target.value * 1
+                if (_dom.id == 'gutterInput') _data['gutter'] = e.target.value * 1
+                wallpaper.render(_data)
+            }
         }
 
     </script>

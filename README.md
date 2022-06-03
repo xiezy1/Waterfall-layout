@@ -3,3 +3,5 @@
 
 
 原理：js动态计算每个图片的top，left
+
+[预览：](https://xiezy1.github.io/Waterfall-layout/)

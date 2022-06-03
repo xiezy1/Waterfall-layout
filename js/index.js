@@ -1,53 +1,31 @@
-class Wallpaper {
-    constructor({ el, col, itemEl, gutter }) {
-        this.el = el && document.querySelector(el)
-        this._arr = []
-        this.col = col
-        this.gutter = gutter
-        this.imageList = itemEl && document.querySelectorAll(itemEl)
-        this.imageListLength = this.imageList.length
-        this.imageWidth = (this.el.offsetWidth - (this.col - 1) * this.gutter) / this.col
-        console.log(this.col);
-        this.init()
-    }
-    init() {
-        this.setImgPosition()
-    }
+window.onload = function () {
+    let wallpaper = new Wallpaper({
+        el: '.container',
+        itemEl: '.img',
+        col: 6,
+        gutter: 20
+    })
 
-    getMinHeight(value) {
-        let _arr = value.map(item => item.height)
-        let minValue = Math.min(..._arr)
-        return _arr.findIndex(i => i == minValue)
-    }
-    setImgPosition() {
-        for (let i = 0; i < this.imageListLength; i++) {
-            let item = this.imageList[i]
-            item.style.width = this.imageWidth + 'px'
-            if (i < this.col) {
-                item.style.top = '0px'
-                let itemLeft = i * item.offsetWidth + i * this.gutter
-                item.style.left = itemLeft + 'px'
-                this._arr.push({
-                    height: item.offsetHeight + this.gutter,
-                    left: itemLeft
-                })
-            } else {
-                let minIndex = this.getMinHeight(this._arr)
-                let { height, left } = this._arr[minIndex]
-                this._arr[minIndex] = { height: item.offsetHeight + height + this.gutter, left }
-                item.style.top = height + 'px'
-                item.style.left = left + 'px'
-            }
+    const sidebarDom = document.querySelector('.sidebar'),
+        sideTracks = Array.from(document.querySelectorAll('input'))
+    document.querySelector('.closed').addEventListener('click', function () {
+        sidebarDom.classList.toggle('hide')
+    })
+
+
+    sideTracks.forEach(item => {
+        item.addEventListener('change', inputTrackChange, false)
+    })
+    console.log(sideTracks[0].value);
+
+    function inputTrackChange(e) {
+        let _dom = e.target
+        let _data = {
+            col: sideTracks[0].value * 1,
+            gutter: sideTracks[1].value * 1
         }
+        if (_dom.id == 'colInput') _data['col'] = e.target.value * 1
+        if (_dom.id == 'gutterInput') _data['gutter'] = e.target.value * 1
+        wallpaper.render(_data)
     }
-
-
-    render({ col, gutter }) {
-        this.col = col
-        this.gutter = gutter
-        this._arr = []
-        this.imageWidth = (this.el.offsetWidth - (this.col - 1) * this.gutter) / this.col
-        this.setImgPosition()
-    }
-
 }
